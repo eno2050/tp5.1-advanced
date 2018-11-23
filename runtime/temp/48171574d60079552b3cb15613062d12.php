@@ -1,4 +1,4 @@
-<?php /*a:1:{s:66:"E:\webwww\tp5.1-advanced\application\backend\view\login\index.html";i:1542945367;}*/ ?>
+<?php /*a:1:{s:66:"E:\webwww\tp5.1-advanced\application\backend\view\login\index.html";i:1542956632;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -51,7 +51,7 @@
     </div>
     <div class="login-footer">
         <div class="home-footer">
-            <div class="copyright">伊禾ERP ©版权所有2018 沪ICP备11017824号</div>
+            <div class="copyright">tp5.1_advanced ©版权所有2018</div>
         </div>
     </div>
 </div>
