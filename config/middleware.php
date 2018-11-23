@@ -15,6 +15,5 @@
 return [
     // 默认中间件命名空间
     'default_namespace' => 'app\\http\\middleware\\',
-
-    'authCheck' => app\http\middleware\authCheck::class,
+    'auth' => 'app\\http\\middleware\\AuthCheck',
 ];

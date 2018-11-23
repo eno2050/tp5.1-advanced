@@ -1,0 +1,286 @@
+{extend name="base" /}
+
+{block name="content"}
+{__block__}
+
+<el-card class="box-card">
+    <div slot="header" class="clearfix">
+        <span v-if="id">编辑账号</span>
+        <span v-else>添加账号</span>
+    </div>
+
+    <div class="text item text-center">
+        <template>
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="mini" class="demo-ruleForm">
+                        <el-form-item label="用户名" prop="username">
+                            <el-input v-model="ruleForm.username"></el-input>
+                        </el-form-item>
+                        <el-form-item label="登录密码" prop="password_hash">
+                            <el-input v-model="ruleForm.password_hash"></el-input>
+                        </el-form-item>
+                        <el-form-item label="部门" prop="department_id">
+                            <el-select v-model="ruleForm.department_id" placeholder="请选择部门">
+                                <el-option
+                                        v-for="item in departmentList"
+                                        :key="item.id"
+                                        :label="item.name"
+                                        :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="职位" prop="position_id">
+                            <el-select v-model="ruleForm.position_id" placeholder="请选择职位">
+                                <el-option
+                                        v-for="item in positionList"
+                                        :key="item.id"
+                                        :label="item.name"
+                                        :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="角色" prop="group_id">
+                            <el-select v-model="ruleForm.group_id" placeholder="请选择角色">
+                                <el-option
+                                        v-for="item in groupList"
+                                        v-show="item.id!=1"
+                                        :key="item.id"
+                                        :label="item.title"
+                                        :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="姓名" prop="name">
+                            <el-input v-model="ruleForm.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="手机号" prop="mobile">
+                            <el-input v-model="ruleForm.mobile"></el-input>
+                        </el-form-item>
+                        <el-form-item label="邮箱" prop="email">
+                            <el-input v-model="ruleForm.email"></el-input>
+                        </el-form-item>
+                        <el-form-item label="性别" prop="sex">
+                            <el-radio-group v-model="ruleForm.sex">
+                                <el-radio :label=1>男</el-radio>
+                                <el-radio :label=2>女</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="备注" prop="remark">
+                            <el-input type="textarea" v-model="ruleForm.remark"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('ruleForm')" :disabled="isDisabled">提交</el-button>
+                            <el-button @click="resetForm('ruleForm')">重置</el-button>
+                        </el-form-item>
+                    </el-form>
+
+                </el-col>
+            </el-row>
+        </template>
+    </div>
+
+
+</el-card>
+
+{/block}
+
+{block name="javascript"}
+{__block__}
+
+
+<script type="text/javascript">
+    function getQuery(){
+        var url = location.search;//获取url中"?"符后的字串
+        var theRequest ={};
+        if(url.indexOf("?")!=-1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i =0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]= unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    window.params = getQuery();
+    $(function () {
+        var vueBox = new Vue({
+            el: '#app',
+            data() {
+                var checkPass = (rule, value, callback) => {
+                    if(this.id===undefined || this.id=='0'){
+                        if (!value) {
+                            return callback(new Error('登陆密码不能为空'));
+                        }
+                        setTimeout(() => {
+                            if (value.length<6 || value.length>20) {
+                                callback(new Error('长度在 6 到 20 个字符'));
+                            } else {
+                                callback();
+                            }
+                        }, 1000);
+                    }else {
+                        callback();
+                    }
+                };
+                return {
+                    isDisabled:false,
+                    ruleForm: {
+                        id:'',
+                        username: '',
+                        password_hash:'',
+                        department_id:'',
+                        position_id:'',
+                        group_id:'',
+                        name:'',
+                        mobile:'',
+                        email:'',
+                        sex:'',
+                        remark:'',
+                    },
+                    rules: {
+                        username: [
+                            { required: true, message: '请输入账号名称', trigger: 'blur' },
+                            { min: 3, max: 64, message: '长度在 3 到 64 个字符', trigger: 'blur' }
+                        ],
+                        password_hash: [
+                            { validator: checkPass, trigger: 'blur' }
+                        ],
+                        // password_hash:[
+                        //     { min: 3, max: 64, message: '长度在 3 到 64 个字符', trigger: 'blur' }
+                        // ],
+                        department_id: [
+                            { required: true, message: '请选择部门', trigger: 'change' }
+                        ],
+                        position_id: [
+                            { required: true, message: '请选择职位', trigger: 'change' }
+                        ],
+                        group_id: [
+                            { required: true, message: '请选择角色', trigger: 'change' }
+                        ],
+                        name: [
+                            { required: true, message: '请输入姓名', trigger: 'blur' },
+                            { min: 2, max: 64, message: '长度在 2 到 64 个字符', trigger: 'blur' }
+                        ],
+                        sex: [
+                            { required: true, message: '请选择性别', trigger: 'change' }
+                        ]
+                    },
+                    id:window.getQuery().id,
+                    query:{},
+                    userInfo:[],
+                    groupList:[],
+                    departmentList:[],
+                    positionList:[]
+                }
+            },
+            created: function () {
+                this.query = window.getQuery();
+                this.getUserInfo(this.query.id);
+                this.getGroupList();
+                this.getDepartmentList();
+                this.getPositionList();
+            },
+            methods: {
+                submitForm(formName) {
+                    var _self = this;
+                    _self.isDisabled=true;
+                    this.$refs[formName].validate((valid) => {
+                        _self.isDisabled=false;
+                        if (valid) {
+                            $.ajax({
+                                type:'post',
+                                url: "{:url('/api/auth/save-user')}",
+                                data: _self.ruleForm,
+                                dataType: 'json',
+                                success: function(result) {
+                                    if (result.Code === '0') {
+                                        _self.$message.success(result.Msg);
+                                        window.location.href = '/admin/auth/user';
+                                    }else{
+                                        _self.$message.error(result.Msg);
+                                        return false;
+                                    }
+                                }
+                            });
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    var _self = this;
+                    _self.isDisabled=false;
+                    this.$refs[formName].resetFields();
+                },
+                getGroupList: function () {
+                    var selfObj = this
+                    $.ajax({
+                        type:'post',
+                        url: "{:url('/api/auth/group-list')}",
+                        data: {type:'all'},
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.Code === '0') {
+                                var resultData = result.Data;
+                                selfObj.groupList = resultData
+                            }
+                        }
+                    });
+                },
+                getDepartmentList: function () {
+                    var selfObj = this
+                    $.ajax({
+                        type:'post',
+                        url: "{:url('/api/auth/department-list')}",
+                        data: {type:'all'},
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.Code === '0') {
+                                var resultData = result.Data;
+                                selfObj.departmentList = resultData
+                            }
+                        }
+                    });
+                },
+                getPositionList: function () {
+                    var selfObj = this
+                    $.ajax({
+                        type:'post',
+                        url: "{:url('/api/auth/position-list')}",
+                        data: {type:'all'},
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.Code === '0') {
+                                var resultData = result.Data;
+                                selfObj.positionList = resultData
+                            }
+                        }
+                    });
+                },
+                getUserInfo: function (id) {
+                    var selfObj = this
+                    $.ajax({
+                        type:'post',
+                        url: "{:url('/api/auth/user-info')}",
+                        data: {id:id},
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.Code === '0') {
+                                var resultData = result.Data;
+                                if(resultData.id){
+                                    selfObj.userInfo = resultData;
+                                    selfObj.ruleForm = resultData;
+                                }
+                            }
+                        }
+                    });
+                },
+            }
+        })
+    });
+</script>
+
+{/block}
+

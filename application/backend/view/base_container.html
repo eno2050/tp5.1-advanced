@@ -1,0 +1,45 @@
+{extend name="base" /}
+
+{block name="content"}
+{__block__}
+
+<div class="card-wrap">
+    <div class="card-header">
+        <span class="card-title">标题</span>
+    </div>
+    <div class="card-body">
+        筛选框
+    </div>
+    <div class="card-sub-header">
+        <span class="card-sub-title">
+            副标题
+        </span>
+    </div>
+    <div class="card-body">
+        内容区域
+    </div>
+    <div class="card-body-blank">
+        内容区域，无 padding
+    </div>
+</div>
+
+{/block}
+
+{block name="javascript"}
+{__block__}
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+
+        },
+        methods: {
+            XX: function () {
+
+            }
+        }
+    });
+</script>
+
+{/block}

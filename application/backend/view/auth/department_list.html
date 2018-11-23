@@ -1,0 +1,162 @@
+{extend name="base" /}
+
+{block name="content"}
+{__block__}
+
+<div class="card-wrap">
+    <div class="card-header">
+        <span class="card-title">部门管理</span>
+    </div>
+    <div class="card-body">
+        <el-form :inline="true" :model="departmentInfo" size="mini" class="demo-form-inline">
+            <el-form-item label="部门">
+                <el-input v-model="departmentInfo.name" placeholder="部门" size="mini"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" size="mini" @click="getDepartmentList">搜索</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+    <div class="card-body-blank">
+        <template>
+            <el-table
+                    :data="departmentList"
+                    fit
+                    border
+                    highlight-current-row
+                    header-row-class-name="table-header-th"
+                    size="mini"
+                    style="width: 100%">
+                <el-table-column
+                        prop="id"
+                        label="编号"
+                        width="80">
+                </el-table-column>
+                <el-table-column
+                        prop="name"
+                        label="部门"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        width="160"
+                        prop="create_time"
+                        label="添加时间">
+                </el-table-column>
+                <el-table-column label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                                type="primary"
+                                size="mini"
+                                @click="window.location='/admin/auth/department-detail?id='+scope.row.id">编辑</el-button>
+                        <el-button
+                                size="mini"
+                                @click="deleteDepartment(scope.row.id)">删除</el-button>
+                    </template>
+                </el-table-column>
+
+            </el-table>
+        </template>
+    </div>
+
+    <div class="card-footer">
+        <el-button type="primary" size="mini" @click="window.location='/admin/auth/department-detail?id=0'">新增</el-button>
+        <div class="right">
+            <el-pagination
+                    small
+                    background
+                    @current-change="getDepartmentList"
+                    :current-page.sync="current"
+                    :page-size="display"
+                    layout="prev, pager, next, jumper"
+                    :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</div>
+
+{/block}
+
+{block name="javascript"}
+{__block__}
+
+<script>
+    $(function () {
+        var vueBox = new Vue({
+            el: '#app',
+            data: {
+                total: 0,     // 记录总条数
+                display: 20,   // 每页显示条数
+                current: 1,     // 当前第n页 ， 也可以 watch current 的变化
+                departmentInfo: {
+                    name: ''
+                },
+                departmentList:[],
+            },
+            created: function () {
+                this.getDepartmentList();
+            },
+            methods: {
+                deleteDepartment:function(id){
+                    var _self = this;
+                    var postUrl = "{:url('/api/auth/delete-department')}";
+                    _self.$confirm('此操作将永久删除该部门, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        $.ajax({
+                            type:'POST',
+                            url: postUrl,
+                            data: {id:id},
+                            dataType: 'json',
+                            success: function(result) {
+                                if (result.Code === '0') {
+                                    _self.$message({
+                                        type: 'success',
+                                        message: '删除成功!'
+                                    });
+                                    window.location.reload(true);
+                                }else{
+                                    _self.$message({
+                                        type: 'error',
+                                        message: '删除失败!'
+                                    });
+                                }
+                            }
+                        });
+                    }).catch(() => {
+                        _self.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+                },
+                getDepartmentList: function () {
+                    var selfObj = this;
+                    var params = {
+                        page:selfObj.current,
+                        type:'page',
+                        name: selfObj.departmentInfo.name
+                    };
+                    $.ajax({
+                        type:'post',
+                        url: "{:url('/api/auth/department-list')}",
+                        data: params,
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.Code === '0') {
+                                var resultData = result.Data;
+                                var dataList = resultData.data;
+                                selfObj.departmentList = dataList;
+                                selfObj.total = resultData.total;
+                                selfObj.current = parseInt(resultData.current_page);
+                                selfObj.display = resultData.per_page;
+                            }
+                        }
+                    });
+                }
+            }
+        })
+    })
+</script>
+{/block}

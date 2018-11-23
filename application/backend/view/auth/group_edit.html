@@ -1,0 +1,199 @@
+{extend name="base" /}
+
+{block name="content"}
+{__block__}
+
+<el-card class="box-card">
+    <div slot="header" class="clearfix">
+        <span v-show="id!=0">编辑角色</span>
+        <span v-else>添加角色</span>
+    </div>
+
+    <div class="text item text-center">
+        <template>
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="medium" class="demo-ruleForm">
+                        <el-form-item label="角色名称" prop="title">
+                            <el-input v-model="ruleForm.title" placeholder="权限名称"></el-input>
+                        </el-form-item>
+                        <el-form-item label="角色权限">
+                            <template>
+                                <el-card class="box-card" shadow="never">
+                                    <div class="text item">
+                                        <el-row :gutter="10">
+                                            <el-tree
+                                                    :data="ruleList"
+                                                    show-checkbox
+                                                    default-expand-all
+                                                    node-key="id"
+                                                    ref="tree"
+                                                    check-strictly="true"
+                                                    highlight-current
+                                                    :default-checked-keys="groupRules"
+                                                    :props="defaultProps">
+                                            </el-tree>
+                                        </el-row>
+                                    </div>
+                                </el-card>
+                            </template>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('ruleForm')" :disabled="isDisabled">提交</el-button>
+                            <el-button @click="javascript:history.go(-1);location.replace(document.referrer);">返回</el-button>
+                        </el-form-item>
+                    </el-form>
+
+                </el-col>
+            </el-row>
+        </template>
+    </div>
+
+
+</el-card>
+
+{/block}
+
+{block name="javascript"}
+{__block__}
+
+
+<script type="text/javascript">
+    function getQuery(){
+        var url = location.search;//获取url中"?"符后的字串
+        var theRequest ={};
+        if(url.indexOf("?")!=-1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i =0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]= unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    window.params = getQuery();
+    $(function () {
+        var vueBox = new Vue({
+            el: '#app',
+            data: {
+                isDisabled:false,
+                ruleForm: {
+                    id:'',
+                    title: '',
+                    rules:''
+                },
+                rules: {
+                    title:[
+                        { required: true, message: '请输入角色名称', trigger: 'blur' },
+                        { min: 2, max: 64, message: '长度在 2 到 64 个字符', trigger: 'blur' }
+                    ]
+                },
+                id:window.getQuery().id,
+                groupInfo:[],
+                ruleList:[],
+                groupRules:[],
+                defaultProps: {
+                    children: 'children',
+                    label: 'label'
+                }
+            },
+            created: function () {
+                this.query = window.getQuery();
+                this.getGroupRules(this.query.id);
+                this.getGroupInfo(this.query.id);
+                this.getRuleList();
+            },
+            methods: {
+                getCheckedKeys: function() {
+                    var _self = this;
+                    return _self.$refs.tree.getCheckedKeys();
+                },
+                submitForm: function(formName) {
+                    var _self = this;
+                    _self.isDisabled=true;
+
+                    var checkIds = _self.getCheckedKeys();
+                    console.info(checkIds);
+                    // this.$refs[formName].validate((valid) => {
+                    this.$refs[formName].validate(function (valid, failFields) {
+                        _self.isDisabled=false;
+                        if (valid) {
+                            if(_self.pid){
+                                _self.ruleForm.pid = _self.pid;
+                            }
+                            $.ajax({
+                                type:'post',
+                                url: "{:url('/api/auth/save-group')}",
+                                data: $.extend({},_self.ruleForm,{check_ids:checkIds}),
+                                dataType: 'json',
+                                success: function(result) {
+                                    if (result.Code === '0') {
+                                        _self.$message.success(result.Msg);
+                                        window.location.href = '/admin/auth/group';
+                                    }else{
+                                        _self.$message.error(result.Msg);
+                                        return false;
+                                    }
+                                }
+                            });
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                getRuleList: function () {
+                    var selfObj = this;
+                    $.ajax({
+                        type:'post',
+                        url: "{:url('/api/auth/rule-list')}",
+                        data: {type:'channel'},
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.Code === '0') {
+                                var resultData = result.Data;
+                                selfObj.ruleList = resultData
+                            }
+                        }
+                    });
+                },
+                getGroupRules: function (id) {
+                    var selfObj = this;
+                    $.ajax({
+                        type:'post',
+                        url: "{:url('/api/auth/group-rule-ids')}",
+                        data: {id:id},
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.Code === '0') {
+                                var resultData = result.Data;
+                                selfObj.groupRules = resultData
+                            }
+                        }
+                    });
+                },
+                getGroupInfo: function (id) {
+                    var selfObj = this
+                    $.ajax({
+                        type:'post',
+                        url: "{:url('/api/auth/group-info')}",
+                        data: {id:id},
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.Code === '0') {
+                                var resultData = result.Data;
+                                if(resultData.id){
+                                    selfObj.groupInfo = resultData;
+                                    selfObj.ruleForm = resultData;
+                                }
+                            }
+                        }
+                    });
+                },
+            }
+        })
+    });
+</script>
+
+{/block}
+

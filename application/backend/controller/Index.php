@@ -1,12 +1,17 @@
 <?php
 namespace app\backend\controller;
 
-use app\common\controller\baseAdmin;
+use app\common\controller\BaseAdmin;
 
-class Index extends baseAdmin
+class index extends BaseAdmin
 {
+    /**
+     * 首页
+     * @return \think\response\View
+     * @throws \think\exception\DbException
+     */
     public function index()
     {
-        phpinfo();
+        return $this->loadFrame('index/index');
     }
 }

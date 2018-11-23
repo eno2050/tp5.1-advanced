@@ -1,0 +1,136 @@
+{extend name="base" /}
+
+{block name="content"}
+{__block__}
+
+<el-card class="box-card">
+    <div slot="header" class="clearfix">
+        <span v-if="id">编辑公司架构</span>
+        <span v-else>添加公司架构</span>
+    </div>
+
+    <div class="text item text-center">
+        <template>
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="mini" class="demo-ruleForm">
+                        <el-form-item label="部门" prop="name">
+                            <el-input v-model="ruleForm.name"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('ruleForm')" :disabled="isDisabled">提交</el-button>
+                            <el-button @click="resetForm('ruleForm')">重置</el-button>
+                        </el-form-item>
+                    </el-form>
+
+                </el-col>
+            </el-row>
+        </template>
+    </div>
+
+
+</el-card>
+
+{/block}
+
+{block name="javascript"}
+{__block__}
+
+
+<script type="text/javascript">
+    function getQuery(){
+        var url = location.search;//获取url中"?"符后的字串
+        var theRequest ={};
+        if(url.indexOf("?")!=-1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i =0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]= unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    window.params = getQuery();
+    $(function () {
+        var vueBox = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    isDisabled:false,
+                    ruleForm: {
+                        id:null,
+                        name:'',
+                    },
+                    rules: {
+                        name: [
+                            { required: true, message: '请输入部门名称', trigger: 'blur' },
+                            { min: 2, max: 64, message: '长度在 1 到 64 个字符', trigger: 'blur' }
+                        ],
+                    },
+                    id:window.getQuery().id,
+                    query:{},
+                    departmentInfo:[]
+                }
+            },
+            created: function () {
+                this.query = window.getQuery();
+                this.getDepartmentInfo(this.query.id);
+            },
+            methods: {
+                submitForm(formName) {
+                    var _self = this;
+                    _self.isDisabled=true;
+                    this.$refs[formName].validate((valid) => {
+                        _self.isDisabled=false;
+                        if (valid) {
+                            $.ajax({
+                                type:'post',
+                                url: "{:url('/api/auth/save-department')}",
+                                data: _self.ruleForm,
+                                dataType: 'json',
+                                success: function(result) {
+                                    if (result.Code === '0') {
+                                        _self.$message.success(result.Msg);
+                                        window.location.href = '/admin/auth/department';
+                                    }else{
+                                        _self.$message.error(result.Msg);
+                                        return false;
+                                    }
+                                }
+                            });
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    var _self = this;
+                    _self.isDisabled=false;
+                    this.$refs[formName].resetFields();
+                },
+                getDepartmentInfo: function (id) {
+                    var selfObj = this
+                    $.ajax({
+                        type:'post',
+                        url: "{:url('/api/auth/department-detail')}",
+                        data: {id:id},
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.Code === '0') {
+                                var resultData = result.Data;
+                                if(resultData.id){
+                                    selfObj.departmentInfo = resultData;
+                                    selfObj.ruleForm = resultData;
+                                }
+                            }
+                        }
+                    });
+                },
+            }
+        })
+    });
+</script>
+
+{/block}
+

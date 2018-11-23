@@ -1,0 +1,183 @@
+{extend name="base" /}
+
+{block name="content"}
+{__block__}
+
+<el-card class="box-card">
+    <div slot="header" class="clearfix">
+        <span v-show="id!=0">编辑权限</span>
+        <span v-show="pid">添加子权限</span>
+        <span v-show="id==0 && !pid">添加权限</span>
+    </div>
+
+    <div class="text item text-center">
+        <template>
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="medium" class="demo-ruleForm">
+                        <el-form-item label="权限名称" prop="title">
+                            <el-input v-model="ruleForm.title" placeholder="权限名称"></el-input>
+                        </el-form-item>
+                        <el-form-item label="路由" prop="name">
+                            <el-input v-model="ruleForm.name" placeholder="路由"></el-input>
+                        </el-form-item>
+                        <el-form-item label="规则" prop="rule">
+                            <el-input v-model="ruleForm.rule" placeholder="规则"></el-input>
+                        </el-form-item>
+                        <el-form-item label="图标" prop="icon">
+                            <el-input v-model="ruleForm.icon" placeholder="icon 图标"></el-input>
+                        </el-form-item>
+                        <el-form-item label="高亮ID" prop="highlight">
+                            <el-input v-model="ruleForm.highlight" placeholder="高亮"></el-input>
+                        </el-form-item>
+                        <el-form-item label="排序" prop="sort">
+                            <el-input v-model="ruleForm.sort" placeholder="越大越靠前"></el-input>
+                        </el-form-item>
+                        <el-form-item label="类型" prop="is_menu">
+                            <el-select v-model="ruleForm.is_menu" placeholder="类型">
+                                <el-option
+                                        v-for="item in typeList"
+                                        :key="item.id"
+                                        :label="item.name"
+                                        :value="item.id">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('ruleForm')" :disabled="isDisabled">提交</el-button>
+                            <el-button @click="resetForm('ruleForm')">重置</el-button>
+                        </el-form-item>
+                    </el-form>
+
+                </el-col>
+            </el-row>
+        </template>
+    </div>
+
+
+</el-card>
+
+{/block}
+
+{block name="javascript"}
+{__block__}
+
+
+<script type="text/javascript">
+    function getQuery(){
+        var url = location.search;//获取url中"?"符后的字串
+        var theRequest ={};
+        if(url.indexOf("?")!=-1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i =0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]= unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    window.params = getQuery();
+    $(function () {
+        var vueBox = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    typeList:[
+                        {id:1,name:'菜单'},
+                        {id:2,name:'节点'},
+                    ],
+                    isDisabled:false,
+                    ruleForm: {
+                        id:'',
+                        title: '',
+                        name:'',
+                        rule:'',
+                        icon:'',
+                        is_menu:'',
+                        sort:0,
+                        highlight:0,
+                        pid:0
+                    },
+                    rules: {
+                        title:[
+                            { required: true, message: '请输入权限名称', trigger: 'blur' },
+                            { min: 2, max: 64, message: '长度在 3 到 64 个字符', trigger: 'blur' }
+                        ],
+                        is_menu:[
+                            { required: true, message: '请选择类别', trigger: 'change' }
+                        ]
+                    },
+                    id:window.getQuery().id,
+                    pid:window.getQuery().pid,
+                    query:{},
+                    ruleInfo:[],
+                    groupList:[],
+                    departmentList:[],
+                    positionList:[]
+                }
+            },
+            created: function () {
+                this.query = window.getQuery();
+                this.getRuleInfo(this.query.id);
+            },
+            methods: {
+                submitForm(formName) {
+                    var _self = this;
+                    _self.isDisabled=true;
+                    this.$refs[formName].validate((valid) => {
+                        _self.isDisabled=false;
+                        if (valid) {
+                            if(_self.pid){
+                                _self.ruleForm.pid = _self.pid;
+                            }
+                            $.ajax({
+                                type:'post',
+                                url: "{:url('/api/auth/save-rule')}",
+                                data: _self.ruleForm,
+                                dataType: 'json',
+                                success: function(result) {
+                                    if (result.Code === '0') {
+                                        _self.$message.success(result.Msg);
+                                        window.location.href = '/admin/auth/rule';
+                                    }else{
+                                        _self.$message.error(result.Msg);
+                                        return false;
+                                    }
+                                }
+                            });
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    var _self = this;
+                    _self.isDisabled=false;
+                    this.$refs[formName].resetFields();
+                },
+                getRuleInfo: function (id) {
+                    var selfObj = this
+                    $.ajax({
+                        type:'post',
+                        url: "{:url('/api/auth/rule-info')}",
+                        data: {id:id},
+                        dataType: 'json',
+                        success: function(result) {
+                            if (result.Code === '0') {
+                                var resultData = result.Data;
+                                if(resultData.id){
+                                    selfObj.ruleInfo = resultData;
+                                    selfObj.ruleForm = resultData;
+                                }
+                            }
+                        }
+                    });
+                },
+            }
+        })
+    });
+</script>
+
+{/block}
+
