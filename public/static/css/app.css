@@ -1,0 +1,300 @@
+@charset "UTF-8";
+html, body, #app {
+    height: 100%;
+}
+body {
+    font-family:
+            -apple-system,
+            BlinkMacSystemFont,
+            'Segoe UI',
+            'Roboto',
+            'Helvetica Neue',
+            Helvetica,
+            sans-serif;
+    line-height: 1;
+    margin: 0;
+    color: #111;
+    background-color: #fff;
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+a{
+    text-decoration:none;
+}
+img {
+    vertical-align: middle;
+}
+th {
+    font-weight: bold;
+}
+
+/* header */
+#header-wrap {
+    position: relative;
+    z-index: 200;
+    height: 60px;
+    -moz-box-shadow:0px 4px 6px -6px #999999; -webkit-box-shadow:0px 4px 6px -6px #999999; box-shadow:0px 4px 6px -6px #999999;
+}
+.logo-wrap, .user-menu-wrap {
+    margin-top: 16px;
+}
+#menu-wrap, #menu-wrap .el-menu {
+    /*height: 100%;*/
+}
+/* 左侧菜单 */
+#menu-title-9 .el-submenu__title:hover .el-icon-all {
+    background-image: url('/static/images/menu_home_current.png') !important;
+}
+#menu-title-20 .el-submenu__title:hover .el-icon-all {
+    background-image: url('/static/images/menu_purchase_order_current.png') !important;
+}
+#menu-title-97 .el-submenu__title:hover .el-icon-all {
+    background-image: url('/static/images/menu_sales_order_current.png') !important;
+}
+#menu-title-22 .el-submenu__title:hover .el-icon-all {
+    background-image: url('/static/images/menu_storage_current.png') !important;
+}
+#menu-title-55 .el-submenu__title:hover .el-icon-all {
+    background-image: url('/static/images/menu_cargo_current.png') !important;
+}
+#menu-title-175 .el-submenu__title:hover .el-icon-all {
+    background-image: url('/static/images/menu_finance_current.png') !important;
+}
+#menu-title-93 .el-submenu__title:hover .el-icon-all {
+    background-image: url('/static/images/menu_base_data_current.png') !important;
+}
+#menu-title-1 .el-submenu__title:hover .el-icon-all {
+    background-image: url('/static/images/menu_auth_current.png') !important;
+}
+#menu-title-205 .el-submenu__title:hover .el-icon-all {
+    background-image: url('/static/images/menu_setting_current.png') !important;
+}
+#main-wrap {
+    flex: 1 1 auto;
+    background-color: #f4f6f9;
+    min-width: 1200px;
+}
+#content-wrap {
+    min-width: 1000px;
+    max-width: 1200px;
+}
+/* 卡片 */
+.card-wrap {
+    border: 1px solid #e9e9e9;
+    background-color: #fff;
+}
+.card-header {
+    height: 32px;
+    line-height: 32px;
+    padding: 6px 20px;
+    border-bottom: 1px solid #e9e9e9;
+}
+.card-title {
+    font-size: 16px;
+}
+.card-sub-header {
+    height: 30px;
+    line-height: 30px;
+    padding: 6px 20px;
+    border-bottom: 1px solid #e9e9e9;
+    background-color: #f7f7f7;
+}
+.card-sub-title {
+    font-size: 14px;
+}
+.card-body {
+    padding: 14px 20px;
+    border-bottom: 1px solid #e9e9e9;
+}
+.card-body-blank {
+    /*border-bottom: 1px solid #e9e9e9;*/
+}
+.card-footer {
+    padding: 14px 20px;
+    overflow: hidden;
+}
+/*  box-card */
+.box-card {
+    width: 100%;
+}
+.text {
+    font-size: 14px;
+}
+.text-md{
+    line-height: 32px;
+}
+.item {
+    margin-bottom: 18px;
+}
+.item-padding-md {
+    background: #f7f7f7;
+    width: 102%;
+    padding: 10px;
+    margin-left: -20px;
+    display: block;
+    margin-top: -20px;
+}
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+}
+.clearfix:after {
+    clear: both
+}
+.page {
+    display: block;
+    float: right;
+    padding: 20px;
+}
+.float-left {
+    display: block;
+    float: left;
+    padding: 20px;
+}
+/*.table-header-th>th{*/
+    /*text-align: center;*/
+    /*background-color: #dcdfe6!important;*/
+/*}*/
+/*.table-header-th-center>th{*/
+    /*text-align: center;*/
+/*}*/
+/*.el-table__row>td{*/
+    /*text-align: center;*/
+/*}*/
+.el-input--medium {
+    width: 320px!important;
+}
+/*.el-input--mini {*/
+    /*width: 160px!important;*/
+/*}*/
+.quick-entry-item {
+    color: #333;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px 0;
+    border-right: 1px solid #e9e9e9;
+    text-decoration: none;
+}
+.quick-entry-item:hover {
+    background-color: #eaeaea;
+}
+.quick-entry-item:last-child {
+    border-right: 0 none;
+}
+.quick-entry-item div:last-child {
+    margin-top: 10px;
+}
+.wait-item-wrap:first-child {
+    margin-bottom: 20px;
+}
+.wait-item {
+    padding: 16px 0;
+    text-align: center;
+    color: #111;
+    background-color: #f5f5f6;
+    margin-right: 16px;
+}
+.wait-item:last-child {
+    margin-right: 0;
+}
+.wait-item:hover {
+    background-color: #d5d5d7;
+}
+.wait-count {
+    font-size: 18px;
+    color: #333333;
+    margin-bottom: 12px;
+}
+.wait-title {
+    font-size: 14px;
+    color: #999999;
+}
+.notice-item {
+    color: #666666;
+    font-size: 14px;
+    line-height: 18px;
+    display: block;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #e9e9e9;
+}
+.notice-item.is-read {
+    color: #c1c0c0;
+}
+
+/* 登录 */
+#login .home-header{
+    background: #fff;
+    width: 100%;
+    height: 45px;
+    line-height: 41px;
+}
+.home-header img{
+    margin-left: 20px;
+}
+.login-home{
+    position: relative;
+    /*height: 92%!important;*/
+    background-image: url("/static/images/login/login_bg.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.login-bg {
+    margin-top: 180px;
+}
+.login-wrap {
+    width: 380px;
+    margin: 0 auto 0 auto;
+    background: #fff;
+    padding: 40px 40px 10px 0;
+    border-radius: 4px;
+}
+
+.login-wrap>h3{
+    margin: 0 auto;
+    float: left;
+    display: block;
+    text-align: center;
+    height: 35px;
+    width: 380px;
+    padding: 10px;
+    color: #409eff;
+}
+
+.login-wrap .login-form {
+    margin-top: 70px;
+    display: flow-root;
+}
+.home-footer .copyright{
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+}
+.login-header {
+    background-color: #fff;
+    height: 60px;
+    line-height: 60px;
+    flex: 0 0 auto;
+}
+.login-footer {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    flex: 0 0 auto;
+}
+.absolute-Center {
+    position: absolute;
+    top: 49%;
+    left: 39%;
+    -moz-transform: translateY(-50%);  /*向上平移 自身的50%*/
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    margin: auto;
+}
