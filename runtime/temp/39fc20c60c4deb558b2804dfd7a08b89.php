@@ -1,4 +1,4 @@
-<?php /*a:2:{s:70:"E:\webwww\tp5.1-advanced\application\backend\view\auth\group_edit.html";i:1542950172;s:59:"E:\webwww\tp5.1-advanced\application\backend\view\base.html";i:1542945489;}*/ ?>
+<?php /*a:2:{s:70:"E:\webwww\tp5.1-advanced\application\backend\view\auth\group_edit.html";i:1543469670;s:59:"E:\webwww\tp5.1-advanced\application\backend\view\base.html";i:1542945489;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -126,34 +126,16 @@
         <template>
             <el-row :gutter="20">
                 <el-col :span="12">
-                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="medium" class="demo-ruleForm">
+                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" size="mini" class="demo-ruleForm">
                         <el-form-item label="角色名称" prop="title">
-                            <el-input v-model="ruleForm.title" placeholder="权限名称"></el-input>
+                            <el-input v-model="ruleForm.title" placeholder="角色名称"></el-input>
                         </el-form-item>
-                        <el-form-item label="角色权限">
-                            <template>
-                                <el-card class="box-card" shadow="never">
-                                    <div class="text item">
-                                        <el-row :gutter="10">
-                                            <el-tree
-                                                    :data="ruleList"
-                                                    show-checkbox
-                                                    default-expand-all
-                                                    node-key="id"
-                                                    ref="tree"
-                                                    check-strictly="true"
-                                                    highlight-current
-                                                    :default-checked-keys="groupRules"
-                                                    :props="defaultProps">
-                                            </el-tree>
-                                        </el-row>
-                                    </div>
-                                </el-card>
-                            </template>
+                        <el-form-item label="备注" prop="remark">
+                            <el-input type="textarea" v-model="ruleForm.remark" placeholder="备注"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="submitForm('ruleForm')" :disabled="isDisabled">提交</el-button>
-                            <el-button @click="javascript:history.go(-1);location.replace(document.referrer);">返回</el-button>
+                            <el-button size="mini" type="primary" @click="submitForm('ruleForm')" :disabled="isDisabled">提交</el-button>
+                            <el-button size="mini" @click="javascript:history.go(-1);location.replace(document.referrer);">返回</el-button>
                         </el-form-item>
                     </el-form>
 
@@ -227,32 +209,20 @@
             },
             created: function () {
                 this.query = window.getQuery();
-                this.getGroupRules(this.query.id);
                 this.getGroupInfo(this.query.id);
-                this.getRuleList();
             },
             methods: {
-                getCheckedKeys: function() {
-                    var _self = this;
-                    return _self.$refs.tree.getCheckedKeys();
-                },
                 submitForm: function(formName) {
                     var _self = this;
                     _self.isDisabled=true;
 
-                    var checkIds = _self.getCheckedKeys();
-                    console.info(checkIds);
-                    // this.$refs[formName].validate((valid) => {
-                    this.$refs[formName].validate(function (valid, failFields) {
+                    this.$refs[formName].validate(function (valid) {
                         _self.isDisabled=false;
                         if (valid) {
-                            if(_self.pid){
-                                _self.ruleForm.pid = _self.pid;
-                            }
                             $.ajax({
                                 type:'post',
                                 url: "<?php echo url('/api/auth/save-group'); ?>",
-                                data: $.extend({},_self.ruleForm,{check_ids:checkIds}),
+                                data: _self.ruleForm,
                                 dataType: 'json',
                                 success: function(result) {
                                     if (result.Code === '0') {
@@ -267,36 +237,6 @@
                         } else {
                             console.log('error submit!!');
                             return false;
-                        }
-                    });
-                },
-                getRuleList: function () {
-                    var selfObj = this;
-                    $.ajax({
-                        type:'post',
-                        url: "<?php echo url('/api/auth/rule-list'); ?>",
-                        data: {type:'channel'},
-                        dataType: 'json',
-                        success: function(result) {
-                            if (result.Code === '0') {
-                                var resultData = result.Data;
-                                selfObj.ruleList = resultData
-                            }
-                        }
-                    });
-                },
-                getGroupRules: function (id) {
-                    var selfObj = this;
-                    $.ajax({
-                        type:'post',
-                        url: "<?php echo url('/api/auth/group-rule-ids'); ?>",
-                        data: {id:id},
-                        dataType: 'json',
-                        success: function(result) {
-                            if (result.Code === '0') {
-                                var resultData = result.Data;
-                                selfObj.groupRules = resultData
-                            }
                         }
                     });
                 },

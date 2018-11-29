@@ -1,4 +1,4 @@
-<?php /*a:2:{s:75:"E:\webwww\tp5.1-advanced\application\backend\view\auth\position_detail.html";i:1542950372;s:59:"E:\webwww\tp5.1-advanced\application\backend\view\base.html";i:1542945489;}*/ ?>
+<?php /*a:2:{s:75:"E:\webwww\tp5.1-advanced\application\backend\view\auth\position_detail.html";i:1543470594;s:59:"E:\webwww\tp5.1-advanced\application\backend\view\base.html";i:1542945489;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -133,6 +133,9 @@
                         <el-form-item label="职位" prop="name">
                             <el-input v-model="ruleForm.name"></el-input>
                         </el-form-item>
+                        <el-form-item label="备注" prop="remark">
+                            <el-input type="textarea" v-model="ruleForm.remark"></el-input>
+                        </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('ruleForm')" :disabled="isDisabled">提交</el-button>
                             <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -192,6 +195,7 @@
                         id:null,
                         code: '',
                         name:'',
+                        remark:'',
                     },
                     rules: {
                         code: [

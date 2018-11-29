@@ -14,6 +14,7 @@ Route::group('admin', [
     //角色
     'auth/group' => 'backend/Auth/groupList',
     'auth/group-edit' => 'backend/Auth/editGroup',
+    'auth/group-allot-rule' => 'backend/Auth/groupAllotRule',
 
     //部门
     'auth/department' => 'backend/Auth/departmentList',

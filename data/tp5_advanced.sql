@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 23/11/2018 15:11:48
+ Date: 29/11/2018 14:07:08
 */
 
 SET NAMES utf8mb4;
@@ -26,13 +26,14 @@ CREATE TABLE `tb_auth_department`  (
   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '部门名称',
   `create_time` int(11) NOT NULL DEFAULT 0 COMMENT '添加时间',
   `update_time` int(11) NOT NULL DEFAULT 0,
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限系统-部门表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限系统-部门表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tb_auth_department
 -- ----------------------------
-INSERT INTO `tb_auth_department` VALUES (4, '超级管理员', 1542003877, 1542096290);
+INSERT INTO `tb_auth_department` VALUES (4, '超级管理员', 1542003877, 1543471005, 'cj');
 
 -- ----------------------------
 -- Table structure for tb_auth_group
@@ -45,13 +46,14 @@ CREATE TABLE `tb_auth_group`  (
   `rules` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `create_time` int(11) NOT NULL DEFAULT 0,
   `update_time` int(11) NOT NULL DEFAULT 0,
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Fixed;
 
 -- ----------------------------
 -- Records of tb_auth_group
 -- ----------------------------
-INSERT INTO `tb_auth_group` VALUES (1, '超级管理员', 1, '9,10,1,2,3,4,5,6,7,8,11,12,13,14,15,16,17,18,19,57,58,59,60,61,62,63,64,65,66,198,199,200,201,205,206,207', 1539594688, 1542953321);
+INSERT INTO `tb_auth_group` VALUES (1, '超级管理员', 1, '9,10,1,2,3,4,5,6,7,8,11,12,13,14,15,16,17,18,19,57,58,59,60,61,62,63,64,65,66,198,199,200,201,205,206,207,208', 1539594688, 1543470837, 'cj');
 
 -- ----------------------------
 -- Table structure for tb_auth_group_access
@@ -89,13 +91,14 @@ CREATE TABLE `tb_auth_position`  (
   `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '职位名称',
   `create_time` int(11) NOT NULL DEFAULT 0 COMMENT '添加时间',
   `update_time` int(11) NOT NULL DEFAULT 0 COMMENT '更新时间',
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限系统-职位表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限系统-职位表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tb_auth_position
 -- ----------------------------
-INSERT INTO `tb_auth_position` VALUES (1, 'YH00001', '超级管理员', 1539308622, 1539765486);
+INSERT INTO `tb_auth_position` VALUES (1, 'YH00001', '超级管理员', 1539308622, 1543470845, 'cj');
 
 -- ----------------------------
 -- Table structure for tb_auth_rule
@@ -115,21 +118,21 @@ CREATE TABLE `tb_auth_rule`  (
   `condition` char(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `highlight` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 208 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Fixed;
+) ENGINE = MyISAM AUTO_INCREMENT = 209 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Fixed;
 
 -- ----------------------------
 -- Records of tb_auth_rule
 -- ----------------------------
 INSERT INTO `tb_auth_rule` VALUES (1, 0, 'Auth', '', '权限管理', 'menu_auth', 1, 10, 0, 1, '', '0');
-INSERT INTO `tb_auth_rule` VALUES (2, 1, 'backend/Auth/departmentList', '/admin/auth/department', '公司架构', '', 1, 0, 1, 1, '', '2');
-INSERT INTO `tb_auth_rule` VALUES (3, 1, 'backend/Auth/userList', '/admin/auth/user', '账号管理', '', 1, 0, 1, 1, '', '3');
-INSERT INTO `tb_auth_rule` VALUES (4, 1, 'backend/Auth/groupList', '/admin/auth/group', '角色管理', '', 1, 0, 1, 1, '', '4');
-INSERT INTO `tb_auth_rule` VALUES (5, 1, 'backend/Auth/positionList', '/admin/auth/position', '职位管理', '', 1, 0, 1, 1, '', '5');
-INSERT INTO `tb_auth_rule` VALUES (6, 1, 'backend/Auth/ajaxSaveDepartment', '/api/auth/save-department', '公司架构编辑', '', 2, 0, 1, 1, '', '2');
-INSERT INTO `tb_auth_rule` VALUES (7, 1, 'backend/Auth/ajaxGetDepartmentList', '/api/auth/department-list', '公司架构列表', '', 2, 0, 1, 1, '', '2');
-INSERT INTO `tb_auth_rule` VALUES (8, 1, 'backend/Auth/ajaxDeleteDepartment', '/api/auth/delete-department', '公司架构删除', '', 2, 0, 1, 1, '', '2');
+INSERT INTO `tb_auth_rule` VALUES (2, 1, 'backend/Auth/departmentList', '/admin/auth/department', '部门管理', '', 1, 5, 1, 1, '', '2');
+INSERT INTO `tb_auth_rule` VALUES (3, 1, 'backend/Auth/userList', '/admin/auth/user', '账号管理', '', 1, 3, 1, 1, '', '3');
+INSERT INTO `tb_auth_rule` VALUES (4, 1, 'backend/Auth/groupList', '/admin/auth/group', '角色管理', '', 1, 2, 1, 1, '', '4');
+INSERT INTO `tb_auth_rule` VALUES (5, 1, 'backend/Auth/positionList', '/admin/auth/position', '职位管理', '', 1, 4, 1, 1, '', '5');
+INSERT INTO `tb_auth_rule` VALUES (6, 1, 'backend/Auth/ajaxSaveDepartment', '/api/auth/save-department', '保存部门信息', '', 2, 0, 1, 1, '', '2');
+INSERT INTO `tb_auth_rule` VALUES (7, 1, 'backend/Auth/ajaxGetDepartmentList', '/api/auth/department-list', '获取部门列表', '', 2, 0, 1, 1, '', '2');
+INSERT INTO `tb_auth_rule` VALUES (8, 1, 'backend/Auth/ajaxDeleteDepartment', '/api/auth/delete-department', '部门删除', '', 2, 0, 1, 1, '', '2');
 INSERT INTO `tb_auth_rule` VALUES (9, 0, 'Home', '', '首页', 'menu_home', 1, 300, 1, 1, '', '0');
-INSERT INTO `tb_auth_rule` VALUES (10, 9, 'backend/Home/index', '/admin/home', '首页', '', 1, 0, 1, 1, '', '10');
+INSERT INTO `tb_auth_rule` VALUES (10, 9, 'backend/Index/index', '/admin/home', '首页', '', 1, 0, 1, 1, '', '10');
 INSERT INTO `tb_auth_rule` VALUES (11, 1, 'backend/Auth/editRule', '/admin/auth/rule-edit', '功能编辑', '', 2, 0, 1, 1, '', '61');
 INSERT INTO `tb_auth_rule` VALUES (12, 1, 'backend/Auth/ajaxUserList', '/api/auth/user-list', '账号列表', '', 2, 0, 1, 1, '', '3');
 INSERT INTO `tb_auth_rule` VALUES (13, 1, 'backend/Auth/ajaxUserInfo', '/api/auth/user-info', '账号详情', '', 2, 0, 1, 1, '', '3');
@@ -139,12 +142,12 @@ INSERT INTO `tb_auth_rule` VALUES (16, 1, 'backend/Auth/editGroup', '/admin/auth
 INSERT INTO `tb_auth_rule` VALUES (17, 1, 'backend/Auth/ajaxGetGroupList', '/api/auth/group-list', '角色列表', '', 2, 0, 1, 1, '', '4');
 INSERT INTO `tb_auth_rule` VALUES (18, 1, 'backend/Auth/ajaxGetGroupInfo', '/api/auth/group-info', '角色详情', '', 2, 0, 1, 1, '', '4');
 INSERT INTO `tb_auth_rule` VALUES (19, 1, 'backend/Auth/ajaxSaveGroup', '/api/auth/save-group', '角色删除', '', 2, 0, 1, 1, '', '4');
-INSERT INTO `tb_auth_rule` VALUES (201, 1, 'backend/Auth/getDepartmentInfo', '/api/auth/department-detail', '获取公司架构详情', '', 2, 0, 1, 1, '', '2');
+INSERT INTO `tb_auth_rule` VALUES (201, 1, 'backend/Auth/getDepartmentInfo', '/api/auth/department-detail', '获取部门详情', '', 2, 0, 1, 1, '', '2');
 INSERT INTO `tb_auth_rule` VALUES (57, 1, 'backend/Auth/editUser', '/admin/auth/user-edit', '编辑用户', '', 2, 0, 1, 1, '', '3');
 INSERT INTO `tb_auth_rule` VALUES (58, 1, 'backend/Auth/ajaxGetPositionList', '/api/auth/position-list', '获取职位列表', '', 2, 0, 1, 1, '', '0');
 INSERT INTO `tb_auth_rule` VALUES (59, 1, 'backend/Auth/ajaxDeletePosition', '/api/auth/delete-position', '删除职位信息', '', 2, 0, 1, 1, '', '0');
 INSERT INTO `tb_auth_rule` VALUES (60, 1, 'backend/Auth/ajaxSavePosition', '/api/auth/save-position', '保存职位信息', '', 2, 0, 1, 1, '', '0');
-INSERT INTO `tb_auth_rule` VALUES (61, 1, 'backend/Auth/ruleList', '/admin/auth/rule', '功能列表', '', 1, 0, 1, 1, '', '61');
+INSERT INTO `tb_auth_rule` VALUES (61, 1, 'backend/Auth/ruleList', '/admin/auth/rule', '功能列表', '', 1, 1, 1, 1, '', '61');
 INSERT INTO `tb_auth_rule` VALUES (62, 1, 'backend/Auth/ajaxGetRuleList', '/api/auth/rule-list', '获取功能列表', '', 2, 0, 1, 1, '', '61');
 INSERT INTO `tb_auth_rule` VALUES (63, 1, 'backend/Auth/ajaxRuleInfo', '/api/auth/rule-info', '获取功能详情', '', 2, 0, 1, 1, '', '0');
 INSERT INTO `tb_auth_rule` VALUES (64, 1, 'backend/Auth/ajaxSaveRule', '/api/auth/save-rule', '保存功能信息', '', 2, 0, 1, 1, '', '0');
@@ -153,8 +156,9 @@ INSERT INTO `tb_auth_rule` VALUES (66, 1, 'backend/Auth/ajaxGetGroupRuleIds', '/
 INSERT INTO `tb_auth_rule` VALUES (206, 205, 'backend/Auth/changePassword', '/admin/auth/change-pass', '修改密码', '', 1, 0, 1, 1, '', '206');
 INSERT INTO `tb_auth_rule` VALUES (205, 0, 'sys', '', '系统管理', 'menu_setting', 1, 0, 1, 1, '', '0');
 INSERT INTO `tb_auth_rule` VALUES (200, 1, 'backend/Auth/getPositionInfo', '/api/auth/position-detail', '获取职位详情', '', 2, 0, 1, 1, '', '5');
+INSERT INTO `tb_auth_rule` VALUES (208, 1, 'backend/Auth/groupAllotRule', '/admin/auth/group-allot-rule', '角色权限分配', '', 2, 0, 1, 1, '', '4');
 INSERT INTO `tb_auth_rule` VALUES (207, 205, 'backend/Auth/changePass', '/api/auth/change-pass', '修改密码接口', '', 2, 0, 1, 1, '', '206');
-INSERT INTO `tb_auth_rule` VALUES (199, 1, 'backend/Auth/departmentDetail', 'auth/department-detail', '公司架构详情', '', 2, 0, 1, 1, '', '2');
+INSERT INTO `tb_auth_rule` VALUES (199, 1, 'backend/Auth/departmentDetail', 'auth/department-detail', '部门详情', '', 2, 0, 1, 1, '', '2');
 INSERT INTO `tb_auth_rule` VALUES (198, 1, 'backend/Auth/positionDetail', '/admin/auth/position-detail', '职位详情', '', 2, 0, 1, 1, '', '5');
 
 -- ----------------------------
@@ -180,7 +184,7 @@ CREATE TABLE `tb_auth_user`  (
   `update_time` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username_UNIQUE`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '后台用户' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '后台用户' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tb_auth_user
@@ -198,7 +202,7 @@ CREATE TABLE `tb_login_log`  (
   `login_ip` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `create_time` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 205 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 207 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '登录日志' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tb_login_log
@@ -407,5 +411,7 @@ INSERT INTO `tb_login_log` VALUES (201, 1, 1, '127.0.0.1', 1542951833);
 INSERT INTO `tb_login_log` VALUES (202, 1, 1, '127.0.0.1', 1542954402);
 INSERT INTO `tb_login_log` VALUES (203, 1, 1, '127.0.0.1', 1542956148);
 INSERT INTO `tb_login_log` VALUES (204, 1, 1, '127.0.0.1', 1542956923);
+INSERT INTO `tb_login_log` VALUES (205, 1, 1, '127.0.0.1', 1543284158);
+INSERT INTO `tb_login_log` VALUES (206, 1, 1, '127.0.0.1', 1543469467);
 
 SET FOREIGN_KEY_CHECKS = 1;

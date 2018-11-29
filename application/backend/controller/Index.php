@@ -8,7 +8,6 @@ class index extends BaseAdmin
     /**
      * 首页
      * @return \think\response\View
-     * @throws \think\exception\DbException
      */
     public function index()
     {

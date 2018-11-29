@@ -1,4 +1,4 @@
-<?php /*a:2:{s:69:"E:\webwww\tp5.1-advanced\application\backend\view\auth\rule_list.html";i:1542950452;s:59:"E:\webwww\tp5.1-advanced\application\backend\view\base.html";i:1542945489;}*/ ?>
+<?php /*a:2:{s:69:"E:\webwww\tp5.1-advanced\application\backend\view\auth\rule_list.html";i:1543469820;s:59:"E:\webwww\tp5.1-advanced\application\backend\view\base.html";i:1542945489;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -167,7 +167,7 @@
                         width="50"
                         label="排序">
                 </el-table-column>
-                <el-table-column label="操作" width="160" align="left">
+                <el-table-column label="操作" width="260" align="left">
                     <template slot-scope="scope">
                         <el-button
                                 type="primary"
@@ -177,10 +177,9 @@
                                 size="mini"
                                 @click="deleteRule(scope.row.id)">删除</el-button>
                         <el-button
-                                v-if="false"
-                                v-show="scope.row.pid==0"
+                                v-if="scope.row.pid==0"
                                 size="mini"
-                                type="danger"
+                                type="info"
                                 @click="window.location='/admin/auth/rule-edit?pid='+scope.row.id+'&id=0'">添加子权限</el-button>
                     </template>
                 </el-table-column>

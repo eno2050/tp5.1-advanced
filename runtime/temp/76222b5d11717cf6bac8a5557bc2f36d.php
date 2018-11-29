@@ -1,4 +1,4 @@
-<?php /*a:2:{s:70:"E:\webwww\tp5.1-advanced\application\backend\view\auth\group_list.html";i:1542953606;s:59:"E:\webwww\tp5.1-advanced\application\backend\view\base.html";i:1542945489;}*/ ?>
+<?php /*a:2:{s:70:"E:\webwww\tp5.1-advanced\application\backend\view\auth\group_list.html";i:1543469579;s:59:"E:\webwww\tp5.1-advanced\application\backend\view\base.html";i:1542945489;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -149,7 +149,7 @@
                         label="更新时间">
                 </el-table-column>
 
-                <el-table-column label="操作" width="180">
+                <el-table-column label="操作" width="260">
                     <!--<template slot-scope="scope">-->
                         <!--<el-button-->
                                 <!--v-show="scope.row.id!=1"-->
@@ -166,6 +166,10 @@
                                 type="primary"
                                 size="mini"
                                 @click="window.location='/admin/auth/group-edit?id='+scope.row.id">编辑</el-button>
+                        <el-button
+                                type="primary"
+                                size="mini"
+                                @click="window.location='/admin/auth/group-allot-rule?id='+scope.row.id">分配权限</el-button>
                         <el-button
                                 size="mini"
                                 @click="deleteGroup(scope.row.id)">删除</el-button>
@@ -245,11 +249,10 @@
                         }
                     });
                 },
-                  deleteGroup: function (id) {
+                deleteGroup: function (id) {
                     var _self = this
                     var postUrl = "<?php echo url('/api/auth/delete-group'); ?>";
-
-                    _self.$confirm('此操作将永久删除该角色, 是否继续?', '提示', {
+                    _self.$confirm('此操作将永久删除该角色吗, 是否继续?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'

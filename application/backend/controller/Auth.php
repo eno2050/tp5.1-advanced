@@ -176,6 +176,14 @@ class Auth extends BaseAdmin
         return $this->loadFrame('auth/group_edit');
     }
     /**
+     * 角色分配权限列表
+     * @return \think\response\View
+     */
+    public function groupAllotRule(){
+        return $this->loadFrame('auth/group_allot_rule');
+    }
+
+    /**
      * @return \think\Response
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException

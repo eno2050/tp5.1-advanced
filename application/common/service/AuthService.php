@@ -244,9 +244,11 @@ class AuthService extends BaseService
         $id = $this->request->param('id');
         $title = $this->request->param('title');
         $check_ids = $this->request->param('check_ids');
+        $remark = $this->request->param('remark');
 
         $params = [];
         $params['title'] = $title;
+        $remark && $params['remark'] = $remark;
         $check_ids && $params['rules'] = implode(',', $check_ids);
         if (!$id) {
             $count = $this->authGroup->getGroupCount(['title' => $params['title']]);
@@ -390,7 +392,7 @@ class AuthService extends BaseService
                 return $this->returnMsg('1001', '该部门名称已存在，请修改后重试');
             }
 
-            $result = $this->authDepartment->saveDepartment(['name' => $data['name']], $id);
+            $result = $this->authDepartment->saveDepartment(['name'=>$data['name'],'remark' => $data['remark']], $id);
 
             if ($result) {
                 return $this->returnMsg('0', '修改成功');
@@ -497,7 +499,7 @@ class AuthService extends BaseService
                 return $this->returnMsg('1001', '该部门名称已存在，请修改后重试');
             }
 
-            $result = $this->authPosition->savePosition(['name' => $data['name']], $id);
+            $result = $this->authPosition->savePosition(['name' => $data['name'],'remark' => $data['remark']], $id);
 
             if ($result) {
                 return $this->returnMsg('0', '修改成功');

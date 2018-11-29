@@ -1,4 +1,4 @@
-<?php /*a:2:{s:66:"E:\webwww\tp5.1-advanced\application\backend\view\index\index.html";i:1542944399;s:59:"E:\webwww\tp5.1-advanced\application\backend\view\base.html";i:1542945489;}*/ ?>
+<?php /*a:2:{s:66:"E:\webwww\tp5.1-advanced\application\backend\view\index\index.html";i:1543471215;s:59:"E:\webwww\tp5.1-advanced\application\backend\view\base.html";i:1542945489;}*/ ?>
 <!doctype html>
 <html>
 <head>
@@ -122,10 +122,11 @@
             <div class="card-header">
                 <span class="card-title">快捷入口</span>
             </div>
-            <div class="card-body-blank">
-                
+            <div class="card-body">
+                <span>不知道放啥</span>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -147,6 +148,21 @@
 <script type="text/javascript" src="/static/js/app.js?v=20181009"></script>
 <script type="text/javascript" src="/static/js/store.js?v=20181013"></script>
 <script type="text/javascript" src="/static/js/filters.js?v=20181013"></script>
+
+
+<script type="text/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+
+        },
+        methods: {
+            XX: function () {
+
+            }
+        }
+    });
+</script>
 
 
 
