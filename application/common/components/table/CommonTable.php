@@ -8,7 +8,7 @@
  * Email: 1042080686@qq.com
  */
 
-namespace app\common\util\table;
+namespace app\common\components\table;
 
 
 class CommonTable

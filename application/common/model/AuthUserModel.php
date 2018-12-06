@@ -2,7 +2,7 @@
 
 namespace app\common\model;
 
-use app\common\util\table\CommonTable;
+use app\common\components\table\CommonTable;
 use think\Config;
 use think\Db;
 use think\exception\PDOException;

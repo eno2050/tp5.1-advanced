@@ -7,7 +7,7 @@
  * Email: 1042080686@qq.com
  */
 
-namespace app\common\util\auth;
+namespace app\common\components\auth;
 
 use app\common\model\AuthRuleModel;
 use think\facade\Config;

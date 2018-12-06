@@ -11,7 +11,7 @@
 namespace app\common\model;
 
 
-use app\common\util\table\CommonTable;
+use app\common\components\table\CommonTable;
 
 class AuthLoginLogModel extends Base
 {
