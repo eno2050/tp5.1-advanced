@@ -8,7 +8,7 @@
  */
 namespace app\http\middleware;
 
-use app\common\util\auth\AuthUtil;
+use app\common\components\auth\AuthUtil;
 use think\facade\Config;
 use think\facade\Url;
 

@@ -10,9 +10,9 @@
 namespace app\backend\controller;
 
 
+use app\common\components\auth\AuthUtil;
 use app\common\controller\BaseHome;
 use app\common\service\AuthService;
-use app\common\util\auth\AuthUtil;
 use think\App;
 use think\facade\Session;
 use think\facade\Url;
